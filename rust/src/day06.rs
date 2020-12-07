@@ -20,7 +20,7 @@ fn solve(input: &Input) -> (usize, usize) {
         .fold((0, 0), |(p1, p2), a| {
             (
                 p1 + a.freq.keys().len(),
-                p2 + a.freq.values().filter(|&f| f >= &a.n_people).count()
+                p2 + a.freq.values().filter(|&&f| f == a.n_people).count()
             )
         })
 }
