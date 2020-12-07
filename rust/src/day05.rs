@@ -2,6 +2,7 @@ extern crate utils;
 
 use std::env;
 use std::collections::BTreeSet;
+use std::ops::RangeInclusive;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::fs::File;
@@ -11,53 +12,38 @@ type Seat = String;
 
 type Input = Vec<Seat>;
 
-fn seat_id(seat: &str) -> u32 {
-    let mut chrs = seat.chars();
-    let mut row_range = 0..=127;
-    let mut col_range = 0..=7;
-
-    for c in chrs.by_ref().take(7) {
-        let span = row_range.end() - row_range.start();
+fn bsp_to_val(s: &str, l_chr: char, h_chr: char, mut range: RangeInclusive<usize>) -> usize {
+    for c in s.chars() {
+        let span = range.end() - range.start();
         let h_span = span / 2;
-        let s = *row_range.start();
-        let e = *row_range.end();
-        match c {
-            'F' => {
-                row_range = s ..= (s + h_span);
-            },
-            'B' => {
-                row_range = (s + h_span + 1) ..= e;
-            },
-            _ => unreachable!()
+        let s = *range.start();
+        let e = *range.end();
+
+        if c == l_chr {
+            range = s ..= (s + h_span);
+        } else if c == h_chr {
+            range = (s + h_span + 1) ..= e;
+        } else {
+            unreachable!()
         }
     }
 
-    for c in chrs {
-        let span = col_range.end() - col_range.start();
-        let h_span = span / 2;
-        let s = *col_range.start();
-        let e = *col_range.end();
-        match c {
-            'L' => {
-                col_range = s ..= (s + h_span);
-            },
-            'R' => {
-                col_range = (s + h_span + 1) ..= e;
-            },
-            _ => unreachable!()
-        }
-    }
-
-    row_range.start() * 8 + col_range.start()
+    *range.start()
 }
 
-fn part1(input: &Input) -> u32 {
+fn seat_id(seat: &str) -> usize {
+    let row = bsp_to_val(&seat[..7], 'F', 'B', 0..=127);
+    let col = bsp_to_val(&seat[7..], 'L', 'R', 0..=7);
+    row * 8 + col
+}
+
+fn part1(input: &Input) -> usize {
     input.iter()
         .map(|seat| seat_id(seat.as_str())).max()
         .unwrap_or(0)
 }
 
-fn part2(input: &Input) -> u32 {
+fn part2(input: &Input) -> usize {
     let seat_ids: BTreeSet<_> = input.iter()
         .map(|seat| seat_id(seat.as_str()))
         .collect();
