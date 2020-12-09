@@ -19,7 +19,7 @@ fn part1(input: &Input) -> u64 {
     let mut preamble = VecDeque::new();
 
     for i in 0..PREAMBLE_SIZE {
-        let mut sums = HashSet::new();
+        let mut sums = HashSet::with_capacity(PREAMBLE_SIZE);
         for j in 0..PREAMBLE_SIZE {
             if i == j {
                 continue;
@@ -38,7 +38,7 @@ fn part1(input: &Input) -> u64 {
 
         preamble.pop_front();
 
-        let mut sums = HashSet::new();
+        let mut sums = HashSet::with_capacity(PREAMBLE_SIZE);
         for j in (i - PREAMBLE_SIZE)..i {
             sums.insert(v + input[j]);
         }
