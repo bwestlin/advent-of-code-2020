@@ -11,6 +11,9 @@ INPUT=""
 if [ "$2" == "timeit" ]; then
   FEATURES="$2"
   INPUT="${@:3}"
+elif [ "$2" == "print" ]; then
+  FEATURES="$2"
+  INPUT="${@:3}"
 else
   INPUT="${@:2}"
 fi
