@@ -8,6 +8,7 @@ use std::collections::HashSet;
 use std::collections::HashMap;
 use std::collections::BTreeSet;
 use std::collections::BTreeMap;
+use std::collections::VecDeque;
 use std::str::FromStr;
 use std::error::Error;
 use std::num::ParseIntError;
@@ -19,11 +20,13 @@ use utils::*;
 
 type Input = Vec<Data>;
 
+#[derive(Debug)]
 struct Data {
     d: i32
 }
 
 fn part1(input: &Input) -> i32 {
+    dbg!(input);
     0
 }
 
