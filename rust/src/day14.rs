@@ -81,7 +81,7 @@ impl BitMask {
                 One  => '1',
             }
         }
-        self.bits.iter().map(|mo| mask_op(mo)).collect::<String>()
+        self.bits.iter().map(mask_op).collect()
     }
 }
 
