@@ -26,7 +26,7 @@ fn solve(input: &Input) -> (usize, usize) {
             if t < input.len() {
                 input[t]
             } else {
-                if memory[last_spoken] == NEVER || memory[last_spoken].turns_apart == 0 {
+                if memory[last_spoken].turns_apart == 0 || memory[last_spoken] == NEVER {
                     0
                 } else {
                     memory[last_spoken].turns_apart
